@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using CS4790A1.Models;
 
 namespace CS4790A1.Controllers
 {
@@ -15,16 +16,45 @@ namespace CS4790A1.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "About CrowdCamp";
 
             return View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "CrowdCamp Site Contacts";
 
             return View();
+        }
+
+        public ViewResult Sites()
+        {
+            return View(SiteList.Sites);
+        }
+
+        [HttpGet]
+        public ViewResult SiteForm()
+        {
+            return View();
+        }
+
+            
+        [HttpPost]
+        public ViewResult SiteForm(Site site)
+        {
+            if(ModelState.IsValid) {
+                SiteList.AddResponse(site);
+                return View("SiteView", site);
+            }else{
+                return View();
+            }
+
+        }
+
+        public ViewResult SiteView(Site site)
+        {
+            return View("SiteView", site);
         }
 
         public IActionResult Error()
